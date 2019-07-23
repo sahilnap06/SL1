@@ -1,0 +1,91 @@
+create database practise;
+
+create table products(product_id integer AUTO_INCREMENT,category integer NOT NULL, product_name varchar(30), price integer NOT NULL, quantity integer default 0,primary key (product_id)); 
+
+--1. stationary
+--2. clothing
+--3. cosmetics
+
+insert into products(category,product_name,price, quantity) values (1,'pen',10,10000);
+
+insert into products(category,product_name,price, quantity) values (1,'pencil',5,12000);
+
+insert into products(category,product_name,price, quantity) values (1,'stapler',15,5000);
+
+insert into products(category,product_name,price, quantity) values (1,'eraser',5,11000);
+
+insert into products(category,product_name,price, quantity) values (1,'ruler',7,8000);
+
+insert into products(category,product_name,price, quantity) values (2,'tshirt',300,500);
+
+insert into products(category,product_name,price, quantity) values (2,'jeans',500,400);
+
+insert into products(category,product_name,price, quantity) values (2,'shirts',250,800);
+
+insert into products(category,product_name,price, quantity) values (2,'shorts',150,100);
+
+insert into products(category,product_name,price, quantity) values (3,'talc',50,2000);
+
+insert into products(category,product_name,price, quantity) values (3,'facewash',85,3000);
+
+insert into products(category,product_name,price, quantity) values (3,'deo',185,2500);
+
+insert into products(category,product_name,price, quantity) values (3,'hair gel',75,300);
+
+insert into products(category,product_name,price, quantity) values (3,'hair gel',95,600);
+
+insert into products(category,product_name,price, quantity) values (4,'candies',NULL,50000);
+
+--1. Delete products with ID 11
+delete from products where product_id = 11;
+
+--2. select price of products having price < 20;
+select * from products where price < 20;
+
+--3. Details of products where name of the product is starting with p and quantity > 5000
+select * from products where product_name like 'p%' and quantity > 5000;
+
+--4. select all products which are not starting with 'S'
+select * from products where product_name not like 's%';
+
+--5. select all products having name (x,x1,z,z1)
+select * from products where product_name in ('pen','pencil','shirt','hair gel');
+
+--6. select all products having price between 5 and 15 and qty 5000 to 10000
+select * from products where price between 5 and 15 AND quantity between 5000 and 10000;
+
+--7. select details of the products having price null
+--constraint already is NOT NULL on price
+select * from products where price is null;
+
+--8. Display details of the products with name starting with P and should be displayed in the descending order of price followed by quantity in ascending order.
+select * from products where product_name like 'p%' order by price desc, quantity asc;
+
+--9. show the details of 5 products with highest price
+select * from products order by price desc limit 5;
+
+--10. show database as "category_name" and quantity 
+select concat(category,'_',product_name) as'category_description',quantity from products; 
+
+--11. show the records having distinct price and quantity
+select distinct price,distinct quantity from products;
+
+--12. show category and count of each category in descending order of count
+select category,count(category) as count from products group by category order by count desc;
+
+--13. show min,max,average and sum of the quantity available
+select product_name, min(quantity),max(quantity),avg(quantity),sum(quantity) from products group by product_name; 
+select category, min(quantity),max(quantity),avg(quantity),sum(quantity) from products group by category; 
+
+--14. show min and max price and total quantity of each category
+select category, min(price),max(price),sum(quantity) from products group by category;
+
+--15. select category, count, avg price of each category where count is greater than 4
+
+--16. give discount of 100 and increase the qty by 50 if qty > 10000
+select *,(case when quantity > 10000 then price-100 as 'discounted price', quantity+50 as 'Increased quantity'
+		 else NULL end)
+		from products;
+		
+--17. delete all products starting with 'pe'
+delete from products where name like 'pe%';
