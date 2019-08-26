@@ -48,6 +48,35 @@ where order_id = 4 and o.cust_id = c.cust_id and o.item_id = f.item_id;
 -- |        4 |       3 | Komal     |       7 | Paneer Chingara |
 -- +----------+---------+-----------+---------+-----------------+
 
+select * from orders
+natural JOIN customer;
+-- +---------+----------+---------+---------------+----------+---------------+------------+------+-----------+------------+
+-- | cust_id | order_id | item_id | date_of_order | quantity | cost_per_item | total_cost | city | cust_name | mob_no     |
+-- +---------+----------+---------+---------------+----------+---------------+------------+------+-----------+------------+
+-- |       1 |        1 |       1 | 2019-07-08    |        2 |            40 |         80 | pune | Pavan     | 4567893120 |
+-- |       1 |        2 |       9 | 2019-07-15    |        3 |           150 |        450 | pune | Pavan     | 4567893120 |
+-- |       1 |        6 |      10 | 2019-07-18    |        4 |            90 |        360 | pune | Pavan     | 4567893120 |
+-- |       1 |        6 |      12 | 2019-07-18    |        2 |           130 |        260 | pune | Pavan     | 4567893120 |
+-- |       2 |        3 |       4 | 2019-07-18    |        4 |            40 |        160 | pune | Yash      | 2267893120 |
+-- |       2 |        3 |       5 | 2019-07-18    |        5 |            90 |        450 | pune | Yash      | 2267893120 |
+-- |       3 |        4 |       1 | 2019-07-18    |        3 |            40 |        120 | pune | Komal     | 6786721948 |
+-- |       3 |        4 |       7 | 2019-07-18    |        3 |           150 |        450 | pune | Komal     | 6786721948 |
+-- |       4 |        5 |       6 | 2019-07-18    |        1 |            60 |         60 | pune | Pranav    | 8408888123 |
+-- |       4 |        5 |      10 | 2019-07-18    |        2 |            90 |        180 | pune | Pranav    | 8408888123 |
+-- |       4 |        5 |      12 | 2019-07-18    |        3 |           110 |        330 | pune | Pranav    | 8408888123 |
+-- +---------+----------+---------+---------------+----------+---------------+------------+------+-----------+------------+
+
+select * from orders
+natural JOIN customer
+where order_id = 4;
+-- +---------+----------+---------+---------------+----------+---------------+------------+------+-----------+------------+
+-- | cust_id | order_id | item_id | date_of_order | quantity | cost_per_item | total_cost | city | cust_name | mob_no     |
+-- +---------+----------+---------+---------------+----------+---------------+------------+------+-----------+------------+
+-- |       3 |        4 |       1 | 2019-07-18    |        3 |            40 |        120 | pune | Komal     | 6786721948 |
+-- |       3 |        4 |       7 | 2019-07-18    |        3 |           150 |        450 | pune | Komal     | 6786721948 |
+-- +---------+----------+---------+---------------+----------+---------------+------------+------+-----------+------------+
+
+
 --3. Get the Total Value of Purchase Orders.
 select order_id,sum(total_cost) from orders group by order_id;
 -- mysql> select order_id,sum(total_cost) from orders group by order_id;
@@ -126,15 +155,23 @@ select * from orders where city = 'pune' and date_of_order='2019-07-18';
 
 
 --8.Add discount of 5% to all the customers whose order is more than Rs. 500/-. (Arithmetic Operators +, -, *, /) 
---error!!!
-select order_id,cust_id,total_cost, 0.95*total_cost as 'Discounted cost'
+select order_id, sum(total_cost) as total, 0.95*sum(total_cost) as 'Discounted'
 from orders
-group by order_id,cust_id,total_cost
+group by order_id
 having sum(total_cost) > 500;
+
+-- +----------+-------+------------+
+-- | order_id | total | Discounted |
+-- +----------+-------+------------+
+-- |        3 |   610 |     579.50 |
+-- |        4 |   570 |     541.50 |
+-- |        5 |   570 |     541.50 |
+-- |        6 |   620 |     589.00 |
+-- +----------+-------+------------+
 
 --9. Delete Purchase Order 5.
 delete from orders where order_id = 5;
-query executed successfully!
+-- query executed successfully!
 -- mysql> select * from orders where city = 'pune' and date_of_order='2019-07-18';
 -- +----------+---------+---------+---------------+----------+---------------+------------+------+
 -- | order_id | cust_id | item_id | date_of_order | quantity | cost_per_item | total_cost | city |

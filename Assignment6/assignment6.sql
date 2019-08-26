@@ -23,7 +23,7 @@
 --1. Get the total no of customers.
 select count(*) as 'Total Customers' from customer; 
 
-mysql> select count(*) as 'Total Customers' from customer; 
+-- mysql> select count(*) as 'Total Customers' from customer; 
 -- +-----------------+
 -- | Total Customers |
 -- +-----------------+
@@ -102,7 +102,42 @@ select sysdate() + INTERVAL 6 month as 'Future 6 months',sysdate() - INTERVAL 6 
 -- | 2020-01-25 09:10:57 | 2019-01-25 09:10:57 |
 -- +---------------------+---------------------+
 
+--7. Find purchase details of the customers group by product category.
+select order_id, cust_id, total_cost,cat_name 
+from orders 
+natural JOIN food_item
+natural join category;
+-- +----------+---------+------------+-------------+
+-- | order_id | cust_id | total_cost | cat_name    |
+-- +----------+---------+------------+-------------+
+-- |        3 |       2 |        160 | SNACKS      |
+-- |        3 |       2 |        450 | SNACKS      |
+-- |        5 |       4 |         60 | SNACKS      |
+-- |        1 |       1 |         80 | STARTERS    |
+-- |        4 |       3 |        120 | STARTERS    |
+-- |        2 |       1 |        450 | MAIN COURSE |
+-- |        4 |       3 |        450 | MAIN COURSE |
+-- |        5 |       4 |        180 | chinese     |
+-- |        5 |       4 |        330 | chinese     |
+-- |        6 |       1 |        360 | chinese     |
+-- |        6 |       1 |        260 | chinese     |
+-- +----------+---------+------------+-------------+
 
---!!!!!!		DOUBT 		!!!!!!!
---Find purchase details of the customers group by product category.
-select order_id, cust_id, total_cost,c.cat_id,c.cat_name from orders o, food_item p, category c where o.item_id = p.item_id and p.cat_id = c.cat_id group by cat_id,order_id,cust_id;
+-- if added following, we get
+order by order_id;
+-- +----------+---------+------------+-------------+
+-- | order_id | cust_id | total_cost | cat_name    |
+-- +----------+---------+------------+-------------+
+-- |        1 |       1 |         80 | STARTERS    |
+-- |        2 |       1 |        450 | MAIN COURSE |
+-- |        3 |       2 |        450 | SNACKS      |
+-- |        3 |       2 |        160 | SNACKS      |
+-- |        4 |       3 |        120 | STARTERS    |
+-- |        4 |       3 |        450 | MAIN COURSE |
+-- |        5 |       4 |        330 | chinese     |
+-- |        5 |       4 |         60 | SNACKS      |
+-- |        5 |       4 |        180 | chinese     |
+-- |        6 |       1 |        260 | chinese     |
+-- |        6 |       1 |        360 | chinese     |
+-- +----------+---------+------------+-------------+
+-- 11 rows in set (0.00 sec)
