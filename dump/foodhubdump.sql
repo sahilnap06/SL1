@@ -40,6 +40,21 @@ INSERT INTO `category` VALUES (1,'SNACKS'),(2,'STARTERS'),(3,'MAIN COURSE'),(4,'
 UNLOCK TABLES;
 
 --
+-- Temporary table structure for view `cust_order`
+--
+
+DROP TABLE IF EXISTS `cust_order`;
+/*!50001 DROP VIEW IF EXISTS `cust_order`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `cust_order` AS SELECT 
+ 1 AS `Order ID`,
+ 1 AS `Name of the customer`,
+ 1 AS `Total Cost`,
+ 1 AS `Mobile number`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Table structure for table `customer`
 --
 
@@ -146,9 +161,44 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,1,1,'2019-07-08',2,40,80,'pune'),(2,1,9,'2019-07-15',3,150,450,'pune'),(3,2,4,'2019-07-18',4,40,160,'pune'),(3,2,5,'2019-07-18',5,90,450,'pune'),(4,3,1,'2019-07-18',3,40,120,'pune'),(4,3,7,'2019-07-18',3,150,450,'pune'),(5,4,6,'2019-07-18',1,60,60,'pune'),(5,4,10,'2019-07-18',2,90,180,'pune'),(5,4,12,'2019-07-18',3,110,330,'pune'),(6,1,10,'2019-07-18',4,90,360,'pune'),(6,1,12,'2019-07-18',2,130,260,'pune'),(7,4,4,'2019-08-01',2,40,80,'pune');
+INSERT INTO `orders` VALUES (1,1,1,'2019-07-08',2,40,80,'pune'),(2,1,9,'2019-07-15',3,150,450,'pune'),(3,2,4,'2019-07-18',4,40,160,'pune'),(3,2,5,'2019-07-18',5,90,450,'pune'),(4,3,1,'2019-07-18',3,40,120,'pune'),(4,3,7,'2019-07-18',3,150,450,'pune'),(5,4,6,'2019-07-18',1,60,60,'pune'),(5,4,10,'2019-07-18',2,90,180,'pune'),(5,4,12,'2019-07-18',3,110,330,'pune'),(6,1,10,'2019-07-18',4,90,360,'pune'),(6,1,12,'2019-07-18',2,130,260,'pune'),(7,4,4,'2019-08-01',2,40,80,'pune'),(8,2,9,'2019-08-26',3,150,450,'pune');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 trigger tc before insert on orders
+for each row
+set new.total_cost = new.quantity * new.cost_per_item */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Final view structure for view `cust_order`
+--
+
+/*!50001 DROP VIEW IF EXISTS `cust_order`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `cust_order` AS select `o`.`order_id` AS `Order ID`,`c`.`cust_name` AS `Name of the customer`,sum(`o`.`total_cost`) AS `Total Cost`,`c`.`mob_no` AS `Mobile number` from (`customer` `c` join `orders` `o` on((`c`.`cust_id` = `o`.`cust_id`))) group by `o`.`order_id`,`c`.`cust_name`,`c`.`mob_no` order by `o`.`order_id` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -159,4 +209,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-08-01 10:58:10
+-- Dump completed on 2019-08-29 10:15:35
