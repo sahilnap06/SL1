@@ -1,0 +1,137 @@
+use foodhub
+
+// using limit function to show only a limited amount of docs
+
+// 1.
+db.orders.find().limit(2).pretty()
+// OUTPUT :
+// > db.orders.find().limit(2).pretty()
+// {
+// 	"_id" : ObjectId("5d8845537fec85ec84fc0973"),
+// 	"name" : "Pavan",
+// 	"order" : [
+// 		{
+// 			"order_id" : 1,
+// 			"item" : "Masala Papad",
+// 			"quantity" : 2,
+// 			"total_cost" : 80
+// 		},
+// 		{
+// 			"order_id" : 1,
+// 			"item" : "Maggi",
+// 			"quanuse foodhub
+
+// using limit function to show only a limited amount of docs
+
+db.orders.find().limit(2).pretty()
+// > db.orders.find().limit(2).pretty()
+// {
+// 	"_id" : ObjectId("5d8845537fec85ec84fc0973"),
+// 	"name" : "Pavan",
+// 	"order" : [
+// 		{
+// 			"order_id" : 1,
+// 			"item" : "Masala Papad",
+// 			"quantity" : 2,
+// 			"total_cost" : 80
+// 		},
+// 		{
+// 			"order_id" : 1,
+// 			"item" : "Maggi",
+// 			"quantity" : 5,
+// 			"total_cost" : 200
+// 		}
+// 	]
+// }
+// {
+// 	"_id" : ObjectId("5d88485b7fec85ec84fc0974"),
+// 	"name" : "Pavan",
+// 	"order" : [
+// 		{
+// 			"order_id" : 2,
+// 			"item" : "Masala Papad",
+// 			"quantity" : 2,
+// 			"total_cost" : 80
+// 		}
+// 	]
+// }
+
+// using skip to skip through documentstity" : 5,
+// 			"total_cost" : 200
+// 		}
+// 	]
+// }
+// {
+// 	"_id" : ObjectId("5d88485b7fec85ec84fc0974"),
+// 	"name" : "Pavan",
+// 	"order" : [
+// 		{
+// 			"order_id" : 2,
+// 			"item" : "Masala Papad",
+// 			"quantity" : 2,
+// 			"total_cost" : 80
+// 		}
+// 	]
+// }
+
+// 2.
+// using skip to skip through documents
+db.orders.find().skip(2).pretty()
+// OUTPUT :
+// {
+// 	"_id" : ObjectId("5d884b307fec85ec84fc0975"),
+// 	"name" : "Yash",
+// 	"order" : [
+// 		{
+// 			"order_id" : 8,
+// 			"item" : "Chicken Masala",
+// 			"quantity" : 3,
+// 			"total_cost" : 510
+// 		},
+// 		{
+// 			"order_id" : 8,
+// 			"item" : "roti",
+// 			"quantity" : 15,
+// 			"total_cost" : 150
+// 		}
+// 	]
+// }
+// {
+// 	"_id" : ObjectId("5d917bb385b3ec1b3b07ee29"),
+// 	"name" : "Yash",
+// 	"order" : [
+// 		{
+// 			"order_id" : 3,
+// 			"item" : "Paneer sandwich",
+// 			"quantity" : 6,
+// 			"total_cost" : 300
+// 		},
+// 		{
+// 			"order_id" : 3,
+// 			"item" : "Chicken masala",
+// 			"quantity" : 4,
+// 			"total_cost" : 680
+// 		}
+// 	]
+// }
+// {
+// 	"_id" : ObjectId("5d917bb385b3ec1b3b07ee2a"),
+// 	"name" : "Rutuja",
+// 	"order" : [
+// 		{
+// 			"order_id" : 4,
+// 			"item" : "Paneer sandwich",
+// 			"quantity" : 6,
+// 			"total_cost" : 300
+// 		},
+// 		{
+// 			"order_id" : 4,
+// 			"item" : "machurian",
+// 			"quantity" : 2,
+// 			"total_cost" : 180
+// 		}
+// 	]
+// }
+
+// 3. using sort
+db.orders.find().sort({order.order_id:1})

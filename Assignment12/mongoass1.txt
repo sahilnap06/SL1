@@ -1,0 +1,127 @@
+
+-- starting the mongo, use foodhub DB
+use foodhub
+show dbs
+
+-- create collection food_item
+db.createCollection("food_item")
+db.food_item.insert({name:'Masala Papad',cost:40,category:'starters'})
+db.food_item.insert({name:'Maggi',cost:'40',category:'snacks'})
+db.food_item.insert({name:'Veg 65',cost:60,category:'chinese'})
+db.food_item.insert({name:'Burger',cost:50,category:'snacks'})
+
+-- create collection customer
+db.createCollection("customer")
+db.customer.insert({name:'Yash',phone:2267893120})
+db.customer.insert({name:'Pavan',phone:4567893120})
+db.customer.insert({name:'Komal',phone:6786721948})
+db.customer.insert({name:'Rutuja',phone:7620126548})
+
+-- create collection orders, which contains the info of the customer buying items.
+db.createCollection("orders")
+db.orders.insert({name:'Pavan',order:[{item:'Masala Papad',quantity:2,total_cost:80},{item:'Maggi',quantity:5,total_cost:200}]})
+db.orders.insert({name:"Yash","order":[{order_id:8,item:"Chicken Masala","quantity":3,"total_cost":510},{order_id:8,item:"roti","quantity":15,"total_cost":150}]})
+db.orders.insertMany([{name:"Yash",order:[{order_id:3,item:"Paneer sandwich",quantity:6,total_cost:300},{order_id:3,item:"Chicken masala",quantity:4,total_cost:680}]},{name:"Rutuja",order:[{order_id:4,item:"Paneer sandwich",quantity:6,total_cost:300},{order_id:4,item:"machurian",quantity:2,total_cost:180}]}])
+
+-- Find query on cost greater than x 
+db.food_item.find({cost:{$gt:40}})
+
+-- delete only one document of name 'Masala Papad'
+db.food_item.deleteOne({name:'Masala Papad'})
+
+> db.food_item.find()
+{ "_id" : ObjectId("5d85a4bd2dca95830456dba1"), "name" : "Masala Papad", "cost" : 40, "category" : "starters" }
+{ "_id" : ObjectId("5d85a4c42dca95830456dba2"), "name" : "Masala Papad", "cost" : 40, "category" : "starters" }
+{ "_id" : ObjectId("5d85a5b02dca95830456dba3"), "name" : "Maggi", "cost" : "40", "category" : "snacks" }
+{ "_id" : ObjectId("5d85a6882e1e72d1dc45e5a3"), "name" : "Burger", "cost" : 50, "category" : "snacks" }
+{ "_id" : ObjectId("5d85a78b2e1e72d1dc45e5a4"), "name" : "Veg 65", "cost" : 60, "category" : "chinese" }
+
+
+> db.food_item.find().pretty()
+{
+	"_id" : ObjectId("5d85a4bd2dca95830456dba1"),
+	"name" : "Masala Papad",
+	"cost" : 40,
+	"category" : "starters"
+}
+{
+	"_id" : ObjectId("5d85a4c42dca95830456dba2"),
+	"name" : "Masala Papad",
+	"cost" : 40,
+	"category" : "starters"
+}
+{
+	"_id" : ObjectId("5d85a5b02dca95830456dba3"),
+	"name" : "Maggi",
+	"cost" : "40",
+	"category" : "snacks"
+}
+{
+	"_id" : ObjectId("5d85a6882e1e72d1dc45e5a3"),
+	"name" : "Burger",
+	"cost" : 50,
+	"category" : "snacks"
+}
+{
+	"_id" : ObjectId("5d85a78b2e1e72d1dc45e5a4"db.orders.insert({name:"Yash","order":[{order_id:8,item:"Chicken Masala","quantity":3,"total_cost":510},{order_id:8,item:"roti","quantity":15,"total_cost":150}]})
+,
+	"name" : "Veg 65",
+	"cost" : 60,
+	"category" : "chinese"
+}
+
+
+> db.orders.find().pretty()
+{
+	"_id" : ObjectId("5d8845537fec85ec84fc0973"),
+	"name" : "Pavan",
+	"order" : [
+		{
+			"order_id" : 1,
+			"item" : "Masala Papad",
+			"quantity" : 2,
+			"total_cost" : 80
+		},
+		{
+			"order_id" : 1,
+			"item" : "Maggi",
+			"quantity" : 5,
+			"total_cost" : 200
+		}
+	]
+}
+{
+	"_id" : ObjectId("5d88485b7fec85ec84fc0974"),
+	"name" : "Pavan",
+	"order" : [
+		{
+			"order_id" : 2,
+			"item" : "Masala Papad",
+			"quantity" : 2,
+			"total_cost" : 80
+		}
+	]
+}
+
+
+
+//	searches for documents with order_id = 1
+> db.orders.find({"order.order_id":1}).pretty()
+{
+	"_id" : ObjectId("5d8845537fec85ec84fc0973"),
+	"name" : "Pavan",
+	"order" : [
+		{
+			"order_id" : 1,
+			"item" : "Masala Papad",
+			"quantity" : 2,
+			"total_cost" : 80
+		},
+		{
+			"order_id" : 1,
+			"item" : "Maggi",
+			"quantity" : 5,
+			"total_cost" : 200
+		}
+	]
+}

@@ -1,0 +1,57 @@
+--Data Definition Commands
+create database foodhub;
+
+use foodhub;
+
+create table customer	(cust_id integer AUTO_INCREMENT,
+				 	customer_name varchar(30) not null,
+				 	mob_no varchar(10),
+				 	PRIMARY KEY (cust_id));
+
+create table category	(cat_id integer,
+					cat_name varchar(15) not null,
+					primary key(cat_id));
+
+create table food_item	(item_id integer,
+					item_name varchar(30) not null,
+					cost integer not null,
+					cat_id integer,
+					primary key (item_id), 
+					foreign key(cat_id) references category (cat_id));
+
+create table orders	(order_id integer,
+					cust_id integer,
+					item_id integer,
+					date_of_order date,
+					quantity integer,
+					cost_per_item integer,
+					total_cost integer,
+					primary key (order_id,cust_id,item_id),
+					foreign key (cust_id) references customer(cust_id),
+					foreign key (item_id) references food_item(item_id)
+					);
+
+
+alter table orders add (newcolumn varchar(30));
+alter table orders drop column newcolumn;					
+--select statements
+select item_name from food_item where item_id = 8;
+
+					
+--Insert commands #DML
+insert into category values(1,"Chinese");
+insert into customer values(1,"name",999999999);
+insert into food_item values(1,"hakka noodles",110,1);
+insert into orders values(1,1,1,sysdate(),2,110,220);
+insert into customer(cust_name,mob_no) values ("abc",21323178); --this command uses auto_increment feature
+
+--update customer table
+update customer set customer_name = "pavan" where cust_id = 2; --the query will update the customer name
+update food_item set cost = 170 where item_id = 8;
+update food_item set item_name = "Chicken masala" where item_name = "chicken handi";
+update customer set cust_id = 4 where cust_id = 123;
+
+delete from food_item where item_id = 4; 
+--alter/modify column name
+alter table customer change customer_name cust_name varchar(30) not null; --alters the name of a column of the customer table
+
